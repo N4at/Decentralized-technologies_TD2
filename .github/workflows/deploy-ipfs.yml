@@ -1,0 +1,24 @@
+name: Deploy to IPFS with Pinata
+
+on:
+  push:
+    branches:
+      - main  # Déclenche le déploiement à chaque push sur la branche main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Utilise une machine Linux pour exécuter les actions
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3  # Récupère le code du repo
+
+      - name: Deploy to IPFS via Pinata
+        uses: anantaramdas/ipfs-pinata-deploy-action@v1.6.4
+        with:
+          pin-name: 'mon-site'  # Nom du pin sur Pinata
+          path: './build'  # Dossier contenant ton site web
+          pinata-api-key: ${{ secrets.PINATA_API_KEY }}  
+          pinata-secret-api-key: ${{ secrets.PINATA_SECRET_API_KEY }}
+          remove-old: false  # Ne supprime pas les anciens fichiers
+          verbose: true  # Active les logs détaillés
